@@ -5,13 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo do Dino</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Ajuste para telas menores */
+        @media (max-width: 768px) {
+            .game-container {
+                width: 100%;
+                height: 150px;
+            }
+            #player {
+                width: 40px;
+                height: 40px;
+            }
+            #obstacle {
+                width: 30px;
+            }
+            .text-box {
+                width: 90%;
+                font-size: 16px;
+            }
+            button {
+                width: 80%;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="text-box">Pressione iniciar para jogar</div>
         <div class="jump-counter" id="jump-counter">Pulos: 0</div>
         
-        <div class="game-container">
+        <div class="game-container" id="game-container">
             <img id="player" src="dino1.png" alt="Dino">
             <img id="obstacle" src="cactus.png" alt="Cacto">
         </div>
@@ -21,6 +45,73 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const player = document.getElementById("player");
+            const obstacle = document.getElementById("obstacle");
+            const startBtn = document.getElementById("start-btn");
+            const gameContainer = document.getElementById("game-container");
+            const textBox = document.querySelector(".text-box");
+            const jumpCounter = document.getElementById("jump-counter");
+
+            let gameRunning = false;
+            let gameOver = false;
+            let jumpCount = 0;
+
+            function updateJumpCounter() {
+                jumpCounter.textContent = `Pulos: ${jumpCount}`;
+            }
+
+            startBtn.addEventListener("click", () => {
+                if (!gameRunning) {
+                    textBox.textContent = "Desvie do obstáculo!";
+                    obstacle.classList.add("obstacle-move");
+                    gameRunning = true;
+                    gameOver = false;
+                    jumpCount = 0;
+                    updateJumpCounter();
+                }
+            });
+
+            function jump() {
+                if (gameRunning && !gameOver) {
+                    player.classList.add("jump");
+                    jumpCount++;
+                    updateJumpCounter();
+                    setTimeout(() => {
+                        player.classList.remove("jump");
+                    }, 500);
+                }
+            }
+
+            document.addEventListener("keydown", (event) => {
+                if (event.code === "Space") {
+                    jump();
+                }
+            });
+
+            gameContainer.addEventListener("click", () => {
+                jump();
+            });
+
+            setInterval(() => {
+                if (gameRunning && !gameOver) {
+                    let playerRect = player.getBoundingClientRect();
+                    let obstacleRect = obstacle.getBoundingClientRect();
+
+                    if (
+                        playerRect.right > obstacleRect.left &&
+                        playerRect.left < obstacleRect.right &&
+                        playerRect.bottom > obstacleRect.top
+                    ) {
+                        gameOver = true;
+                        gameRunning = false;
+                        textBox.textContent = "Game Over!";
+                        obstacle.classList.remove("obstacle-move");
+                    }
+                }
+            }, 50);
+        });
+    </script>
 </body>
 </html>
