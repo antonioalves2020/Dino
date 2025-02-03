@@ -1,0 +1,139 @@
+/* Estilo do corpo */
+body {
+    background-color: pink;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Evitar rolagem durante os efeitos */
+}
+
+/* Container principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 1;
+}
+
+/* Caixa de texto */
+.text-box {
+    border: 2px solid black;
+    background-color: transparent;
+    color: black;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+/* Botão estilo padrão para outras telas */
+button {
+    padding: 15px 30px;
+    font-size: 16px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+    justify-content: center;
+}
+
+.jump-counter {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+/* Área do jogo */
+.game-container {
+    position: relative;
+    width: 600px;
+    height: 200px;
+    border: 2px solid black;
+    background-color: white;
+    overflow: hidden;
+}
+
+/* Player (Dino) */
+#player {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 50px;
+    height: 50px;
+    background-image: url('dino_sprite.png'); /* Imagem do sprite */
+    background-size: cover;
+    background-position: 0 0; /* Inicia com o primeiro quadro do sprite */
+}
+
+/* Obstáculo (Cacto) */
+#obstacle {
+    position: absolute;
+    bottom: 0;
+    right: -50px;
+    width: 40px;
+}
+
+/* Animação do obstáculo */
+.obstacle-move {
+    animation: moveObstacle 2s linear infinite;
+}
+
+@keyframes moveObstacle {
+    from {
+        right: -50px;
+    }
+    to {
+        right: 100%;
+    }
+}
+
+/* Animação de movimento (corrida) */
+@keyframes run {
+    0% { background-position: 0 0; } /* Primeiro quadro */
+    50% { background-position: -50px 0; } /* Segundo quadro */
+    100% { background-position: 0 0; } /* Volta ao primeiro quadro */
+}
+
+/* Animação de pulo */
+.jump {
+    animation: jump 0.5s ease-out;
+}
+
+@keyframes jump {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-70px); }
+    50% { transform: translateY(-100px); }
+    70% { transform: translateY(-70px); }
+    100% { transform: translateY(0); }
+}
+
+/* Botões */
+button {
+    padding: 15px 30px;
+    font-size: 16px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
+}
